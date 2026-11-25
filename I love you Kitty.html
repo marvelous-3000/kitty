@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I love you Kitty</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: tender, quiet, one lovely object on one screen
+   IDEA: a sealed love letter she opens herself
+   PICTURE: a big envelope with a heart wax seal; the card rises out, hearts drift up
+   COLOUR and TYPE: rose ground, deep berry ink, red seal; Dancing Script for the words, Quicksand for small text
+   LAYOUT: centred envelope filling the screen, a hint line below, nothing else */
+:root{color-scheme:light dark;
+  --bg:light-dark(#f6c9d3,#2a0e1b);
+  --bg2:light-dark(#fbe3e8,#3d1428);
+  --ink:light-dark(#5a0f2e,#ffe3ea);
+  --env:light-dark(#fff5f7,#f3d6de);
+  --env2:light-dark(#f2d3db,#d9b0bc);
+  --env3:light-dark(#e9bfca,#c999a7);
+  --seal:#d81b4a;--seal2:#a3102f;
+  --card:#fffdfb;--cardink:#7a1238;--heart:#e8335f}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{height:100%}
+body{margin:0;background:radial-gradient(120% 90% at 50% 20%,var(--bg2),var(--bg));color:var(--ink);
+  font:16px/1.55 Quicksand,system-ui,sans-serif;overflow:hidden;
+  display:grid;place-items:center;min-height:100svh;-webkit-tap-highlight-color:transparent}
+#sky{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.fh{position:absolute;bottom:-40px;width:var(--s);height:var(--s);color:var(--heart);opacity:.0;
+  animation:rise var(--d) linear var(--w) infinite}
+.fh svg{width:100%;height:100%;display:block}
+@keyframes rise{0%{transform:translate(0,0) rotate(0);opacity:0}10%{opacity:var(--o)}
+  50%{transform:translate(var(--x),-55vh) rotate(12deg)}100%{transform:translate(0,-115vh) rotate(-8deg);opacity:0}}
+
+main{position:relative;z-index:1;display:grid;justify-items:center;gap:22px;padding:24px 16px;width:100%}
+.stage{position:relative;width:min(88vw,460px);aspect-ratio:3/2;margin-top:clamp(110px,26vh,220px);
+  cursor:pointer;border:0;background:none;padding:0;font:inherit;color:inherit;border-radius:14px}
+.stage:focus-visible{outline:3px solid var(--seal);outline-offset:8px}
+
+/* envelope back */
+.back{position:absolute;inset:0;background:var(--env3);border-radius:12px;
+  box-shadow:0 30px 50px -20px rgba(90,15,46,.45),0 8px 18px -8px rgba(90,15,46,.3)}
+/* the card */
+.card{position:absolute;left:6%;right:6%;top:6%;height:88%;background:var(--card);border-radius:10px;
+  display:grid;place-items:center;text-align:center;padding:6% 8%;color:var(--cardink);
+  box-shadow:0 6px 18px rgba(90,15,46,.18);transform:translateY(0);
+  transition:transform 1s cubic-bezier(.2,.8,.2,1) .55s, height 1s ease .55s;z-index:2}
+.card h1{margin:0;font:700 clamp(40px,10.5vw,64px)/1.05 "Dancing Script",cursive;text-wrap:balance;color:var(--cardink)}
+.card p{margin:.6em 0 0;font-size:15px;font-weight:600;letter-spacing:.01em;opacity:.75}
+.card .mini{width:34px;height:34px;color:var(--heart);margin:0 auto .3em;display:block;animation:beat 1.4s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}45%{transform:scale(1.12)}}
+
+/* front pockets */
+.front{position:absolute;inset:0;z-index:3;pointer-events:none}
+.front svg{width:100%;height:100%;display:block;filter:drop-shadow(0 -2px 3px rgba(90,15,46,.08))}
+/* flap */
+.flap{position:absolute;left:0;right:0;top:0;height:58%;z-index:4;transform-origin:top center;
+  transition:transform .7s cubic-bezier(.5,0,.3,1),z-index 0s .35s}
+.flap svg{width:100%;height:100%;display:block;overflow:visible}
+.seal{position:absolute;left:50%;top:58%;width:clamp(58px,15vw,78px);aspect-ratio:1;z-index:5;
+  transform:translate(-50%,-50%);transition:transform .45s ease,opacity .35s ease;
+  filter:drop-shadow(0 4px 6px rgba(90,15,46,.35))}
+.seal svg{width:100%;height:100%;display:block}
+.stage:hover .seal{transform:translate(-50%,-50%) scale(1.06) rotate(-4deg)}
+
+.open .seal{opacity:0;transform:translate(-50%,-50%) scale(.4) rotate(-30deg)}
+.open .flap{transform:rotateX(180deg);z-index:1}
+.open .card{transform:translateY(-62%);height:118%}
+
+.hint{margin:0;font-size:16px;font-weight:600;text-align:center;opacity:.85;transition:opacity .4s}
+.open ~ .hint{opacity:0}
+.more{font:600 16px Quicksand,system-ui,sans-serif;color:var(--ink);background:transparent;min-height:44px;
+  padding:10px 22px;border:2px solid currentColor;border-radius:999px;cursor:pointer;opacity:0;pointer-events:none;
+  transition:opacity .6s ease 1.4s,background .2s}
+.more:hover{background:color-mix(in srgb,var(--ink) 10%,transparent)}
+.more:focus-visible{outline:3px solid var(--seal);outline-offset:3px}
+.shown{opacity:1;pointer-events:auto}
+.burst{position:fixed;width:22px;height:22px;color:var(--heart);pointer-events:none;z-index:9;
+  animation:pop 1.3s ease-out forwards}
+.burst svg{width:100%;height:100%}
+@keyframes pop{0%{transform:translate(-50%,-50%) scale(.3);opacity:1}
+  100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.1) rotate(var(--r));opacity:0}}
+
+@media(max-width:600px){.stage{margin-top:clamp(120px,28vh,200px)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important;transition-delay:0s!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="h" viewBox="0 0 32 29"><path fill="currentColor" d="M16 29s-1.2-.8-3-2.2C7.4 22.4 0 16.6 0 9.2 0 4.1 3.9 0 8.8 0c3 0 5.6 1.6 7.2 4 1.6-2.4 4.2-4 7.2-4C28.1 0 32 4.1 32 9.2c0 7.4-7.4 13.2-13 17.6-1.8 1.4-3 2.2-3 2.2z"/></symbol>
+</svg>
+<div id="sky" aria-hidden="true"></div>
+
+<main>
+  <button class="stage" id="env" aria-label="Open the letter">
+    <div class="back"></div>
+    <div class="card" aria-live="polite">
+      <div>
+        <svg class="mini" aria-hidden="true"><use href="#h"/></svg>
+        <h1>I love you Kitty</h1>
+        <p>Today, tomorrow, and every day after.</p>
+      </div>
+    </div>
+    <div class="front" aria-hidden="true">
+      <svg viewBox="0 0 300 200" preserveAspectRatio="none">
+        <path d="M0 12 L150 118 L0 200 Z" fill="var(--env2)"/>
+        <path d="M300 12 L150 118 L300 200 Z" fill="var(--env2)"/>
+        <path d="M0 200 L150 102 L300 200 Z" fill="var(--env)"/>
+        <path d="M0 200 L150 102 L300 200" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1"/>
+      </svg>
+    </div>
+    <div class="flap" aria-hidden="true">
+      <svg viewBox="0 0 300 116" preserveAspectRatio="none">
+        <path d="M0 0 H300 L158 112 Q150 118 142 112 Z" fill="var(--env)"/>
+        <path d="M0 0 L142 112 Q150 118 158 112 L300 0" fill="none" stroke="rgba(90,15,46,.12)" stroke-width="1.2"/>
+      </svg>
+    </div>
+    <div class="seal" aria-hidden="true">
+      <svg viewBox="0 0 80 80">
+        <defs><radialGradient id="wax" cx="38%" cy="32%" r="70%"><stop offset="0" stop-color="#f0476e"/><stop offset=".6" stop-color="var(--seal)"/><stop offset="1" stop-color="var(--seal2)"/></radialGradient></defs>
+        <path fill="url(#wax)" d="M40 3c6 0 8 4 13 5s9-1 12 4 1 9 4 13 7 6 7 13-4 9-5 14 2 9-3 12-9 1-13 4-6 8-15 8-9-5-14-7-10 0-13-4-1-9-4-13-6-7-6-14 4-9 5-14-2-9 3-12 9 0 13-4S33 3 40 3z"/>
+        <circle cx="40" cy="40" r="25" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="2"/>
+        <use href="#h" x="27" y="28" width="26" height="24" style="color:rgba(255,235,240,.9)"/>
+      </svg>
+    </div>
+  </button>
+  <p class="hint" id="hint">A little letter for you. Tap to open.</p>
+  <button class="more" id="more">Send more love</button>
+</main>
+
+<script>
+{
+  const sky=document.getElementById('sky');
+  const env=document.getElementById('env');
+  const more=document.getElementById('more');
+  const heart='<svg><use href="#h"/></svg>';
+  const n=window.innerWidth<600?14:22;
+  for(let i=0;i<n;i++){
+    const d=document.createElement('div');
+    d.className='fh';
+    const s=10+Math.random()*22;
+    d.style.cssText=`left:${Math.random()*100}%;--s:${s}px;--d:${9+Math.random()*10}s;--w:${-Math.random()*18}s;--x:${(Math.random()*80-40).toFixed(0)}px;--o:${(.25+Math.random()*.45).toFixed(2)}`;
+    d.innerHTML=heart;
+    sky.appendChild(d);
+  }
+  const burst=(x,y,count)=>{
+    for(let i=0;i<count;i++){
+      const b=document.createElement('div');
+      b.className='burst';
+      const a=Math.random()*Math.PI*2, r=80+Math.random()*160;
+      b.style.cssText=`left:${x}px;top:${y}px;--dx:${Math.cos(a)*r}px;--dy:${Math.sin(a)*r-60}px;--r:${Math.random()*60-30}deg;width:${14+Math.random()*18}px;height:${14+Math.random()*18}px`;
+      b.innerHTML=heart;
+      document.body.appendChild(b);
+      setTimeout(()=>b.remove(),1400);
+    }
+  };
+  let opened=false;
+  env.addEventListener('click',()=>{
+    const r=env.getBoundingClientRect();
+    if(!opened){
+      opened=true;
+      env.classList.add('open');
+      env.setAttribute('aria-label','Letter opened');
+      more.classList.add('shown');
+      setTimeout(()=>burst(r.left+r.width/2,r.top+r.height*0.1,28),900);
+    }else{
+      burst(r.left+r.width/2,r.top,14);
+    }
+  });
+  more.addEventListener('click',e=>{
+    burst(window.innerWidth/2,window.innerHeight*0.4,36);
+  });
+}
+</script>
+</body>
+</html>
